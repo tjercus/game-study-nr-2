@@ -77,3 +77,36 @@ export const updateCoordsInDirection = (unit, nrOfPixels) => {
   }
   return unit;
 };
+
+// const moveHero = (prevPoint, nextPoint) => {
+//   if (isCollissions(state.walls, nextPoint)) {
+//     console.warn("collission");
+//     state.hero.x = prevPoint.x;
+//     state.hero.y = prevPoint.y;
+//   } else {
+//     state.hero.x = nextPoint.x;
+//     state.hero.y = nextPoint.y;
+//   }
+//   const newPos = correctBeyondBorderPosition({x: state.hero.x, y: state.hero.y});
+//   state.hero.x = newPos.x;
+//   state.hero.y = newPos.y;
+// };
+
+/*
+if (state.pressedKeys.left) {
+  nextPoint = {x: state.hero.x - progress, y: state.hero.y};
+  moveHero(prevPoint, nextPoint);
+}
+if (state.pressedKeys.right) {
+  nextPoint = {x: state.hero.x + progress, y: state.hero.y};
+  moveHero(prevPoint, nextPoint);
+}
+if (state.pressedKeys.up) {
+  nextPoint = {x: state.hero.x, y: state.hero.y - progress};
+  moveHero(prevPoint, nextPoint);
+}
+if (state.pressedKeys.down) {
+  nextPoint = {x: state.hero.x, y: state.hero.y + progress};
+  moveHero(prevPoint, nextPoint);
+}
+*/

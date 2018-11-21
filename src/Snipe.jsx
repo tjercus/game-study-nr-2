@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { SNIPE_SIZE } from "./constants";
 
 const Snipe = props => {
-  console.log("Snipe", props.snipe);
   return (
     <rect
       x={props.snipe.x}

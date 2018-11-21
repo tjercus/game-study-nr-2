@@ -18,20 +18,23 @@ import {
 /**
  * Is what is commonly known a 'reducer', but I don't like the word
  * Is NOT in utils.js, since it manipulates state
- * @param {Array<Snipe>} snipes
- * @param {number} nrOfMoves - counts all moves done
- * @returns {Object<Array<Snipe>, number>} next state
+ * @param {Object<State>} state
+ * @returns {Object<Hero, number, Array<Snipe>>} next state
  */
-const makeNextState = (snipes, nrOfMoves) => {
-  const updatedSnipes = snipes.map(snipe => {
-    if (nrOfMoves % DIRECTION_LIMIT === 0) {
+const makeNextState = state => {
+  const updatedSnipes = state.snipes.map(snipe => {
+    if (state.nrOfMoves % DIRECTION_LIMIT === 0) {
       snipe.dir = createRandomDir();
     }
     snipe = updateCoordsInDirection(snipe, PX_PER_MOVE);
     return correctBeyondBorderPosition(snipe, CANVAS_WIDTH, CANVAS_HEIGHT);
   });
-  nrOfMoves++;
-  return { nrOfMoves, updatedSnipes };
+  state.nrOfMoves++;
+  return {
+    nrOfMoves: state.nrOfMoves,
+    hero: state.hero,
+    snipes: updatedSnipes
+  };
 };
 
 class App extends Component {
@@ -39,6 +42,10 @@ class App extends Component {
     super(props);
     this.state = {
       nrOfMoves: 0,
+      hero: {
+        x: CANVAS_WIDTH / 2,
+        y: CANVAS_WIDTH / 2
+      },
       snipes: [
         { x: 10, y: 10, dir: Directions.DOWN },
         { x: 700, y: 700, dir: Directions.UP }
@@ -47,16 +54,23 @@ class App extends Component {
   }
 
   componentDidMount() {
+    window.addEventListener(
+      "keydown",
+      evt => {
+        console.log(evt.keyCode);
+        this.state.hero.x = this.state.hero.x + 10;
+      },
+      false
+    );
     setInterval(() => {
-      this.setState(makeNextState(this.state.snipes, this.state.nrOfMoves));
-      console.dir(this.state);
+      this.setState(makeNextState(this.state));
     }, INTERVAL_BETWEEN_MOVES_MS);
   }
 
   render() {
     return (
       <Fragment>
-        <Canvas snipes={this.state.snipes} />
+        <Canvas hero={this.state.hero} snipes={this.state.snipes} />
         <div>
           snipe 1: {this.state.snipes[0].x}, {this.state.snipes[0].y},{" "}
           {this.state.snipes[0].dir}

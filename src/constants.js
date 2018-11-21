@@ -23,3 +23,5 @@ export const INTERVAL_BETWEEN_MOVES_MS = 100;
 export const PX_PER_MOVE = 10;
 
 export const SNIPE_SIZE = 5;
+
+export const HERO_SIZE = 10;

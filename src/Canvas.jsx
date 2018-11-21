@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Snipe from "./Snipe";
+import Hero from "./Hero";
 import { CANVAS_HEIGHT } from "./constants";
 
 const Canvas = props => {
@@ -12,12 +13,9 @@ const Canvas = props => {
   };
 
   return (
-    <svg
-      id="game-canvas"
-      preserveAspectRatio="xMaxYMax none"
-      viewBox={viewBox}
-      onClick={onCanvasClick}
-    >
+    <svg id="game-canvas" viewBox={viewBox} onClick={onCanvasClick}>
+      <Hero hero={props.hero} />
+
       {props.snipes.map(snipe => (
         <Snipe snipe={snipe} key={snipe.x + " " + snipe.y} />
       ))}
@@ -26,6 +24,10 @@ const Canvas = props => {
 };
 
 Canvas.propTypes = {
+  hero: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired
+  }),
   snipes: PropTypes.arrayOf(
     PropTypes.shape({
       x: PropTypes.number.isRequired,
