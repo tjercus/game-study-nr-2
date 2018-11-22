@@ -55,49 +55,50 @@ class App extends Component {
   }
 
   componentDidMount() {
-    let prevPoint = this.state.hero;
-    let nextPoint = { x: 0, y: 0 };
-    window.addEventListener(
-      "keydown",
-      evt => {
-        console.log(evt.keyCode);
-        if (evt.keyCode === 38) {
-          nextPoint = {
-            x: this.state.hero.x,
-            y: this.state.hero.y - PX_PER_MOVE
-          };
-        }
-        if (evt.keyCode === 39) {
-          nextPoint = {
-            x: this.state.hero.x + PX_PER_MOVE,
-            y: this.state.hero.y
-          };
-        }
-        if (evt.keyCode === 40) {
-          nextPoint = {
-            x: this.state.hero.x,
-            y: this.state.hero.y + PX_PER_MOVE
-          };
-        }
-        if (evt.keyCode === 37) {
-          nextPoint = {
-            x: this.state.hero.x - PX_PER_MOVE,
-            y: this.state.hero.y
-          };
-        }
-        this.state.hero = moveHero(this.state.hero, prevPoint, nextPoint);
-      },
-      false
-    );
+    window.addEventListener("keydown", this.keyDownHandler, false);
     setInterval(() => {
       this.setState(makeNextState(this.state));
     }, INTERVAL_BETWEEN_MOVES_MS);
   }
 
+  keyDownHandler = evt => {
+    console.log(evt.keyCode);
+    let prevPoint = this.state.hero;
+    let nextPoint = { x: 0, y: 0 };
+    if (evt.keyCode === 38) {
+      nextPoint = {
+        x: this.state.hero.x,
+        y: this.state.hero.y - PX_PER_MOVE
+      };
+    }
+    if (evt.keyCode === 39) {
+      nextPoint = {
+        x: this.state.hero.x + PX_PER_MOVE,
+        y: this.state.hero.y
+      };
+    }
+    if (evt.keyCode === 40) {
+      nextPoint = {
+        x: this.state.hero.x,
+        y: this.state.hero.y + PX_PER_MOVE
+      };
+    }
+    if (evt.keyCode === 37) {
+      nextPoint = {
+        x: this.state.hero.x - PX_PER_MOVE,
+        y: this.state.hero.y
+      };
+    }
+    this.state.hero = moveHero(this.state.hero, prevPoint, nextPoint);
+  };
+
   render() {
     return (
       <Fragment>
         <Canvas hero={this.state.hero} snipes={this.state.snipes} />
+        <div>
+          Hero: {this.state.hero.x}, {this.state.hero.y}, {this.state.hero.dir}
+        </div>
         <div>
           snipe 1: {this.state.snipes[0].x}, {this.state.snipes[0].y},{" "}
           {this.state.snipes[0].dir}

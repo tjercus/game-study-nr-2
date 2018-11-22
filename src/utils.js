@@ -40,15 +40,15 @@ const createOppositeDir = dir => {
  * @returns {Unit} modified subject
  */
 export const correctBeyondBorderPosition = (unit, fieldWidth, fieldHeight) => {
-  if (unit.x >= fieldWidth) {
-    unit.x = fieldWidth - SNIPE_SIZE;
+  if (unit.x >= fieldWidth - SNIPE_SIZE * 2) {
+    unit.x = fieldWidth - SNIPE_SIZE * 2;
     unit.dir = createOppositeDir(unit.dir);
   } else if (unit.x <= 0) {
     unit.x = 1;
     unit.dir = createOppositeDir(unit.dir);
   }
-  if (unit.y >= fieldHeight) {
-    unit.y = fieldHeight - SNIPE_SIZE;
+  if (unit.y >= fieldHeight - SNIPE_SIZE * 2) {
+    unit.y = fieldHeight - SNIPE_SIZE * 2;
     unit.dir = createOppositeDir(unit.dir);
   } else if (unit.y <= 0) {
     unit.y = 1;
@@ -61,7 +61,7 @@ export const correctBeyondBorderPosition = (unit, fieldWidth, fieldHeight) => {
  * Given a current x and y and a direction, calculate next x and y after moving
  * @param {Unit} unit
  * @param {number} nrOfPixels - to move
- * @returns {Unit} modified snipe
+ * @returns {Unit} modified unit
  */
 export const updateCoordsInDirection = (unit, nrOfPixels) => {
   switch (unit.dir) {
