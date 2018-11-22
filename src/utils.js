@@ -1,4 +1,10 @@
-import { Directions, DirectionsArray, SNIPE_SIZE } from "./constants";
+import {
+  CANVAS_HEIGHT,
+  CANVAS_WIDTH,
+  Directions,
+  DirectionsArray,
+  SNIPE_SIZE
+} from "./constants";
 
 /**
  *
@@ -25,37 +31,37 @@ const createOppositeDir = dir => {
 };
 
 /**
- * Corrects a snipes position and direction given the borders of a field
+ * Corrects a units position and direction given the borders of a field
  *  the rule is that there is no pacman/snipes like 'round-going', so a snipe
  *  cannot cross the borders.
- * @param {Snipe} snipe - the moving subject
+ * @param {Unit} unit - the moving subject, can be Snipe or Hero
  * @param {number} fieldWidth
  * @param {number} fieldHeight
- * @returns {Snipe} modified subject
+ * @returns {Unit} modified subject
  */
-export const correctBeyondBorderPosition = (snipe, fieldWidth, fieldHeight) => {
-  if (snipe.x >= fieldWidth) {
-    snipe.x = fieldWidth - SNIPE_SIZE;
-    snipe.dir = createOppositeDir(snipe.dir);
-  } else if (snipe.x <= 0) {
-    snipe.x = 1;
-    snipe.dir = createOppositeDir(snipe.dir);
+export const correctBeyondBorderPosition = (unit, fieldWidth, fieldHeight) => {
+  if (unit.x >= fieldWidth) {
+    unit.x = fieldWidth - SNIPE_SIZE;
+    unit.dir = createOppositeDir(unit.dir);
+  } else if (unit.x <= 0) {
+    unit.x = 1;
+    unit.dir = createOppositeDir(unit.dir);
   }
-  if (snipe.y >= fieldHeight) {
-    snipe.y = fieldHeight - SNIPE_SIZE;
-    snipe.dir = createOppositeDir(snipe.dir);
-  } else if (snipe.y <= 0) {
-    snipe.y = 1;
-    snipe.dir = createOppositeDir(snipe.dir);
+  if (unit.y >= fieldHeight) {
+    unit.y = fieldHeight - SNIPE_SIZE;
+    unit.dir = createOppositeDir(unit.dir);
+  } else if (unit.y <= 0) {
+    unit.y = 1;
+    unit.dir = createOppositeDir(unit.dir);
   }
-  return snipe;
+  return unit;
 };
 
 /**
  * Given a current x and y and a direction, calculate next x and y after moving
- * @param {Snipe} unit
+ * @param {Unit} unit
  * @param {number} nrOfPixels - to move
- * @returns {Snipe} modified snipe
+ * @returns {Unit} modified snipe
  */
 export const updateCoordsInDirection = (unit, nrOfPixels) => {
   switch (unit.dir) {
@@ -92,21 +98,11 @@ export const updateCoordsInDirection = (unit, nrOfPixels) => {
 //   state.hero.y = newPos.y;
 // };
 
-/*
-if (state.pressedKeys.left) {
-  nextPoint = {x: state.hero.x - progress, y: state.hero.y};
-  moveHero(prevPoint, nextPoint);
-}
-if (state.pressedKeys.right) {
-  nextPoint = {x: state.hero.x + progress, y: state.hero.y};
-  moveHero(prevPoint, nextPoint);
-}
-if (state.pressedKeys.up) {
-  nextPoint = {x: state.hero.x, y: state.hero.y - progress};
-  moveHero(prevPoint, nextPoint);
-}
-if (state.pressedKeys.down) {
-  nextPoint = {x: state.hero.x, y: state.hero.y + progress};
-  moveHero(prevPoint, nextPoint);
-}
-*/
+export const moveHero = (hero, prevPoint, nextPoint) => {
+  hero.x = nextPoint.x;
+  hero.y = nextPoint.y;
+  const newPos = correctBeyondBorderPosition(hero, CANVAS_WIDTH, CANVAS_HEIGHT);
+  hero.x = newPos.x;
+  hero.y = newPos.y;
+  return hero;
+};

@@ -4,7 +4,8 @@ import "./App.css";
 import {
   updateCoordsInDirection,
   correctBeyondBorderPosition,
-  createRandomDir
+  createRandomDir,
+  moveHero
 } from "./utils";
 import {
   CANVAS_HEIGHT,
@@ -54,11 +55,37 @@ class App extends Component {
   }
 
   componentDidMount() {
+    let prevPoint = this.state.hero;
+    let nextPoint = { x: 0, y: 0 };
     window.addEventListener(
       "keydown",
       evt => {
         console.log(evt.keyCode);
-        this.state.hero.x = this.state.hero.x + 10;
+        if (evt.keyCode === 38) {
+          nextPoint = {
+            x: this.state.hero.x,
+            y: this.state.hero.y - PX_PER_MOVE
+          };
+        }
+        if (evt.keyCode === 39) {
+          nextPoint = {
+            x: this.state.hero.x + PX_PER_MOVE,
+            y: this.state.hero.y
+          };
+        }
+        if (evt.keyCode === 40) {
+          nextPoint = {
+            x: this.state.hero.x,
+            y: this.state.hero.y + PX_PER_MOVE
+          };
+        }
+        if (evt.keyCode === 37) {
+          nextPoint = {
+            x: this.state.hero.x - PX_PER_MOVE,
+            y: this.state.hero.y
+          };
+        }
+        this.state.hero = moveHero(this.state.hero, prevPoint, nextPoint);
       },
       false
     );
