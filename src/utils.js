@@ -106,3 +106,17 @@ export const moveHero = (hero, prevPoint, nextPoint) => {
   hero.y = newPos.y;
   return hero;
 };
+
+const isCollissions = (subjects, subj) =>
+  subjects.map(subject => isCollission(subject, subj)).includes(true);
+
+const isCollission = (rect1, rect2) => {
+  if (rect1 === null || rect2 === null) {
+    return false;
+  }
+  const predY1 = rect1.y + unitSize <= rect2.y;
+  const predY2 = rect1.y >= rect2.y + unitSize;
+  const predX1 = rect1.x + unitSize <= rect2.x;
+  const predX2 = rect1.x >= rect2.x + unitSize;
+  return !(predY1 || predY2 || predX1 || predX2);
+};
