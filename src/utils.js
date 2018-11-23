@@ -58,30 +58,41 @@ export const correctBeyondBorderPosition = (unit, fieldWidth, fieldHeight) => {
 };
 
 /**
- * Given a current x and y and a direction, calculate next x and y after moving
+ * Starting with prevPoint, create a new point nrOfPixels in dir
+ * @param {string} dir
+ * @param {Point} prevPoint
+ * @param {number} nrOfPixels
+ * @returns {Point} a new Point
+ */
+export const createNextPoint = (dir, prevPoint, nrOfPixels) => {
+  const nextPoint = { ...prevPoint };
+  switch (dir) {
+    case Directions.UP:
+      nextPoint.y = prevPoint.y - nrOfPixels;
+      break;
+    case Directions.RIGHT:
+      nextPoint.x = prevPoint.x + nrOfPixels;
+      break;
+    case Directions.DOWN:
+      nextPoint.y = prevPoint.y + nrOfPixels;
+      break;
+    case Directions.LEFT:
+      nextPoint.x = prevPoint.x - nrOfPixels;
+      break;
+    default:
+      break;
+  }
+  return nextPoint;
+};
+
+/**
+ * Given a current point (x and y) and a direction, calculate next point after moving
  * @param {Unit} unit
  * @param {number} nrOfPixels - to move
  * @returns {Unit} modified unit
  */
-export const updateCoordsInDirection = (unit, nrOfPixels) => {
-  switch (unit.dir) {
-    case Directions.LEFT:
-      unit.x = unit.x - nrOfPixels;
-      break;
-    case Directions.RIGHT:
-      unit.x = unit.x + nrOfPixels;
-      break;
-    case Directions.UP:
-      unit.y = unit.y - nrOfPixels;
-      break;
-    case Directions.DOWN:
-      unit.y = unit.y + nrOfPixels;
-      break;
-    default:
-      unit.x = unit.x - nrOfPixels;
-      break;
-  }
-  return unit;
+export const updateUnitCoordsInDirection = (unit, nrOfPixels) => {
+  return { dir: unit.dir, ...createNextPoint(unit.dir, { x: unit.x, y: unit.y }, nrOfPixels) };
 };
 
 // const moveHero = (prevPoint, nextPoint) => {
@@ -106,17 +117,17 @@ export const moveHero = (hero, prevPoint, nextPoint) => {
   hero.y = newPos.y;
   return hero;
 };
-
-const isCollissions = (subjects, subj) =>
-  subjects.map(subject => isCollission(subject, subj)).includes(true);
-
-const isCollission = (rect1, rect2) => {
-  if (rect1 === null || rect2 === null) {
-    return false;
-  }
-  const predY1 = rect1.y + unitSize <= rect2.y;
-  const predY2 = rect1.y >= rect2.y + unitSize;
-  const predX1 = rect1.x + unitSize <= rect2.x;
-  const predX2 = rect1.x >= rect2.x + unitSize;
-  return !(predY1 || predY2 || predX1 || predX2);
-};
+//
+// const isCollissions = (subjects, subj) =>
+//   subjects.map(subject => isCollission(subject, subj)).includes(true);
+//
+// const isCollission = (rect1, rect2) => {
+//   if (rect1 === null || rect2 === null) {
+//     return false;
+//   }
+//   const predY1 = rect1.y + unitSize <= rect2.y;
+//   const predY2 = rect1.y >= rect2.y + unitSize;
+//   const predX1 = rect1.x + unitSize <= rect2.x;
+//   const predX2 = rect1.x >= rect2.x + unitSize;
+//   return !(predY1 || predY2 || predX1 || predX2);
+// };

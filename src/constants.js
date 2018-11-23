@@ -1,3 +1,20 @@
+/**
+ * @interface Unit
+ * @property {number} x - cartesian coord
+ * @property {number} y - cartesian coord
+ * @property {string} dir - direction
+ */
+
+/**
+ * @interface Point
+ * @property {number} x - cartesian coord
+ * @property {number} y - cartesian coord
+ */
+
+/**
+ *
+ * @type {{UP: string, RIGHT: string, DOWN: string, LEFT: string}}
+ */
 export const Directions = {
   UP: "up",
   RIGHT: "right",
@@ -11,6 +28,11 @@ export const DirectionsArray = [
   Directions.DOWN,
   Directions.LEFT
 ];
+
+export const UP_INT = 38;
+export const RIGHT_INT = 39;
+export const DOWN_INT = 40;
+export const LEFT_INT = 37;
 
 /**
  * Map browser keydown keyCode nr's to movement stuff

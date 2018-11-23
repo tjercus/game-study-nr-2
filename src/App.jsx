@@ -2,10 +2,10 @@ import React, { Component, Fragment } from "react";
 import Canvas from "./Canvas";
 import "./App.css";
 import {
-  updateCoordsInDirection,
+  updateUnitCoordsInDirection,
   correctBeyondBorderPosition,
   createRandomDir,
-  moveHero
+  moveHero, createNextPoint
 } from "./utils";
 import {
   CANVAS_HEIGHT,
@@ -13,7 +13,8 @@ import {
   Directions,
   DIRECTION_LIMIT,
   INTERVAL_BETWEEN_MOVES_MS,
-  PX_PER_MOVE
+  PX_PER_MOVE,
+  keyMap
 } from "./constants";
 
 /**
@@ -27,7 +28,7 @@ const makeNextState = state => {
     if (state.nrOfMoves % DIRECTION_LIMIT === 0) {
       snipe.dir = createRandomDir();
     }
-    snipe = updateCoordsInDirection(snipe, PX_PER_MOVE);
+    snipe = updateUnitCoordsInDirection(snipe, PX_PER_MOVE);
     return correctBeyondBorderPosition(snipe, CANVAS_WIDTH, CANVAS_HEIGHT);
   });
   state.nrOfMoves++;
@@ -63,32 +64,8 @@ class App extends Component {
 
   keyDownHandler = evt => {
     console.log(evt.keyCode);
-    let prevPoint = this.state.hero;
-    let nextPoint = { x: 0, y: 0 };
-    if (evt.keyCode === 38) {
-      nextPoint = {
-        x: this.state.hero.x,
-        y: this.state.hero.y - PX_PER_MOVE
-      };
-    }
-    if (evt.keyCode === 39) {
-      nextPoint = {
-        x: this.state.hero.x + PX_PER_MOVE,
-        y: this.state.hero.y
-      };
-    }
-    if (evt.keyCode === 40) {
-      nextPoint = {
-        x: this.state.hero.x,
-        y: this.state.hero.y + PX_PER_MOVE
-      };
-    }
-    if (evt.keyCode === 37) {
-      nextPoint = {
-        x: this.state.hero.x - PX_PER_MOVE,
-        y: this.state.hero.y
-      };
-    }
+    const prevPoint = { x: this.state.hero.x, y: this.state.hero.y };
+    const nextPoint = createNextPoint(keyMap[evt.keyCode], prevPoint, PX_PER_MOVE);
     this.state.hero = moveHero(this.state.hero, prevPoint, nextPoint);
   };
 
