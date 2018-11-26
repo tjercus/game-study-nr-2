@@ -1,5 +1,5 @@
 
-## Game study nr 2: player and entities shooting at each other ##
+## Game study nr 2: a hero can be moved by the player ##
 
  - rendering with react
  - rendering to svg
