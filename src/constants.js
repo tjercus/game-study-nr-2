@@ -6,6 +6,16 @@
  */
 
 /**
+ * @interface Snipe
+ * @augments Unit
+ */
+
+/**
+ * @interface Hero
+ * @augments Unit
+ */
+
+/**
  * @interface Point
  * @property {number} x - cartesian coord
  * @property {number} y - cartesian coord
@@ -29,14 +39,8 @@ export const DirectionsArray = [
   Directions.LEFT
 ];
 
-export const UP_INT = 38;
-export const RIGHT_INT = 39;
-export const DOWN_INT = 40;
-export const LEFT_INT = 37;
-
 /**
  * Map browser keydown keyCode nr's to movement stuff
- * @type {{"39": string, "37": string, "38": string, "40": string, "65": string, "68": string, "87": string, "83": string}}
  */
 export const keyMap = {
   39: "right",

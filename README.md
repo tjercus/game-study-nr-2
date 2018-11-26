@@ -5,9 +5,7 @@
  - rendering to svg
  - entities (aka snipes) moving autonomously
  - one hero can be moved by the player
- - entities shoot at the hero when hero get's too close
- - player can make the hero shoot at entities
-
+ - naive collision detection, the snipes will not cross the hero and vice versa
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

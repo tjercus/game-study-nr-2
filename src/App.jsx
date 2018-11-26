@@ -2,10 +2,11 @@ import React, { Component, Fragment } from "react";
 import Canvas from "./Canvas";
 import "./App.css";
 import {
-  updateUnitCoordsInDirection,
-  correctBeyondBorderPosition,
+  correctUnitBeyondBorderPosition,
   createRandomDir,
-  moveHero, createNextPoint
+  moveHero,
+  createNextPoint,
+  isCollision
 } from "./utils";
 import {
   CANVAS_HEIGHT,
@@ -14,7 +15,8 @@ import {
   DIRECTION_LIMIT,
   INTERVAL_BETWEEN_MOVES_MS,
   PX_PER_MOVE,
-  keyMap
+  keyMap,
+  SNIPE_SIZE
 } from "./constants";
 
 /**
@@ -28,8 +30,19 @@ const makeNextState = state => {
     if (state.nrOfMoves % DIRECTION_LIMIT === 0) {
       snipe.dir = createRandomDir();
     }
-    snipe = updateUnitCoordsInDirection(snipe, PX_PER_MOVE);
-    return correctBeyondBorderPosition(snipe, CANVAS_WIDTH, CANVAS_HEIGHT);
+    let nextPoint = createNextPoint(
+      snipe.dir,
+      /** @type Point */ { x: snipe.x, y: snipe.y },
+      PX_PER_MOVE
+    );
+    if (isCollision(state.hero, nextPoint, SNIPE_SIZE)) {
+      nextPoint = { x: snipe.x, y: snipe.y };
+    }
+    return {
+      ...snipe,
+      ...nextPoint,
+      ...correctUnitBeyondBorderPosition(nextPoint, CANVAS_WIDTH, CANVAS_HEIGHT)
+    };
   });
   state.nrOfMoves++;
   return {
@@ -50,7 +63,9 @@ class App extends Component {
       },
       snipes: [
         { x: 10, y: 10, dir: Directions.DOWN },
-        { x: 700, y: 700, dir: Directions.UP }
+        { x: 700, y: 700, dir: Directions.UP },
+        { x: 200, y: 200, dir: Directions.RIGHT },
+        { x: 400, y: 400, dir: Directions.LEFT }
       ]
     };
   }
@@ -65,8 +80,17 @@ class App extends Component {
   keyDownHandler = evt => {
     console.log(evt.keyCode);
     const prevPoint = { x: this.state.hero.x, y: this.state.hero.y };
-    const nextPoint = createNextPoint(keyMap[evt.keyCode], prevPoint, PX_PER_MOVE);
-    this.state.hero = moveHero(this.state.hero, prevPoint, nextPoint);
+    const nextPoint = createNextPoint(
+      keyMap[evt.keyCode],
+      prevPoint,
+      PX_PER_MOVE
+    );
+    this.state.hero = moveHero(
+      this.state.hero,
+      this.state.snipes,
+      prevPoint,
+      nextPoint
+    );
   };
 
   render() {
@@ -76,14 +100,13 @@ class App extends Component {
         <div>
           Hero: {this.state.hero.x}, {this.state.hero.y}, {this.state.hero.dir}
         </div>
-        <div>
-          snipe 1: {this.state.snipes[0].x}, {this.state.snipes[0].y},{" "}
-          {this.state.snipes[0].dir}
-        </div>
-        <div>
-          snipe 2: {this.state.snipes[1].x}, {this.state.snipes[1].y},{" "}
-          {this.state.snipes[1].dir}
-        </div>
+        {this.state.snipes.map((snipe, i) => {
+          return (
+            <div>
+              snipe {i}: {snipe.x}, {snipe.y}, {snipe.dir}
+            </div>
+          );
+        })}
       </Fragment>
     );
   }
