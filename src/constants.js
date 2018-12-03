@@ -1,7 +1,7 @@
 /**
+ * TODO perhaps name 'Movable'
  * @interface Unit
- * @property {number} x - cartesian coord
- * @property {number} y - cartesian coord
+ * @augments Point
  * @property {string} dir - direction
  */
 
@@ -17,9 +17,16 @@
 
 /**
  * @interface Point
- * @property {number} x - cartesian coord
- * @property {number} y - cartesian coord
+ * @property {number} x - cartesian coord, left-right axis
+ * @property {number} y - cartesian coord, up-down axis
  */
+
+/**
+ * @interface Action
+ * @property {string} type
+ * @property {Object} payload
+ */
+
 
 /**
  *
@@ -64,5 +71,7 @@ export const INTERVAL_BETWEEN_MOVES_MS = 100;
 export const PX_PER_MOVE = 10;
 
 export const SNIPE_SIZE = 5;
-
 export const HERO_SIZE = 10;
+
+export const MOVE_SNIPES_CMD = "MOVE_SNIPES_CMD";
+export const MOVE_HERO_CMD = "MOVE_HERO_CMD";
