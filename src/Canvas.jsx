@@ -17,7 +17,7 @@ const Canvas = props => {
       <Hero hero={props.hero} />
 
       {props.snipes.map(snipe => (
-        <Snipe snipe={snipe} key={snipe.x + " " + snipe.y} />
+        <Snipe snipe={snipe} key={snipe.id} />
       ))}
     </svg>
   );

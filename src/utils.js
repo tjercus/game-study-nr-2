@@ -105,7 +105,7 @@ export const createNextPoint = (dir, prevPoint, nrOfPixels) => {
  */
 export const moveHero = (hero, snipes, prevPoint, nextPoint) => {
   const movedHero = /** @type Hero */ { ...hero };
-  if (!isCollisions(snipes, nextPoint, HERO_SIZE)) {
+  if (!isCollisions(snipes, nextPoint, HERO_SIZE * 2)) {
     movedHero.x = nextPoint.x;
     movedHero.y = nextPoint.y;
   }

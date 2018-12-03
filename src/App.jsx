@@ -35,7 +35,7 @@ const makeNextState = state => {
       /** @type Point */ { x: snipe.x, y: snipe.y },
       PX_PER_MOVE
     );
-    if (isCollision(state.hero, nextPoint, SNIPE_SIZE)) {
+    if (isCollision(state.hero, nextPoint, SNIPE_SIZE * 2)) {
       nextPoint = { x: snipe.x, y: snipe.y };
     }
     return {
@@ -62,10 +62,10 @@ class App extends Component {
         y: CANVAS_WIDTH / 2
       },
       snipes: [
-        { x: 10, y: 10, dir: Directions.DOWN },
-        { x: 700, y: 700, dir: Directions.UP },
-        { x: 200, y: 200, dir: Directions.RIGHT },
-        { x: 400, y: 400, dir: Directions.LEFT }
+        { x: 10, y: 10, dir: Directions.DOWN, id: 1 },
+        { x: 700, y: 700, dir: Directions.UP, id: 2 },
+        { x: 200, y: 200, dir: Directions.RIGHT, id: 3 },
+        { x: 400, y: 400, dir: Directions.LEFT, id: 4 }
       ]
     };
   }
