@@ -41,7 +41,7 @@ const makeNextState = state => {
     return {
       ...snipe,
       ...nextPoint,
-      ...correctUnitBeyondBorderPosition(nextPoint, CANVAS_WIDTH, CANVAS_HEIGHT)
+      ...correctUnitBeyondBorderPosition(nextPoint, SNIPE_SIZE, CANVAS_WIDTH, CANVAS_HEIGHT)
     };
   });
   state.nrOfMoves++;

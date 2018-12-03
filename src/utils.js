@@ -3,8 +3,7 @@ import {
   CANVAS_WIDTH,
   Directions,
   DirectionsArray,
-  HERO_SIZE,
-  SNIPE_SIZE
+  HERO_SIZE
 } from "./constants";
 
 /**
@@ -47,21 +46,22 @@ const createOppositeDir = dir => {
  */
 export const correctUnitBeyondBorderPosition = (
   unit,
+  unitSize,
   fieldWidth,
   fieldHeight
 ) => {
-  if (unit.x >= fieldWidth - SNIPE_SIZE * 2) {
-    unit.x = fieldWidth - SNIPE_SIZE * 2;
+  if (unit.x >= fieldWidth - unitSize / 2) {
+    unit.x = fieldWidth - (unitSize / 2) * 2;
     unit.dir = createOppositeDir(unit.dir);
   } else if (unit.x <= 0) {
-    unit.x = 1;
+    unit.x = unitSize;
     unit.dir = createOppositeDir(unit.dir);
   }
-  if (unit.y >= fieldHeight - SNIPE_SIZE * 2) {
-    unit.y = fieldHeight - SNIPE_SIZE * 2;
+  if (unit.y >= fieldHeight - unitSize / 2) {
+    unit.y = fieldHeight - (unitSize / 2) * 2;
     unit.dir = createOppositeDir(unit.dir);
   } else if (unit.y <= 0) {
-    unit.y = 1;
+    unit.y = unitSize;
     unit.dir = createOppositeDir(unit.dir);
   }
   return unit;
@@ -111,6 +111,7 @@ export const moveHero = (hero, snipes, prevPoint, nextPoint) => {
   }
   return /** @type Hero */ correctUnitBeyondBorderPosition(
     movedHero,
+    HERO_SIZE,
     CANVAS_WIDTH,
     CANVAS_HEIGHT
   );
